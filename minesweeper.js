@@ -34,6 +34,7 @@ app.controller('minesweeperCtrl', function($scope) {
 	}
 	$scope.addColour = function() {
 		$scope.colours.push({val: "#FFFFFF", count: 0});
+		$scope.selectColour($scope.colours.length-1);
 	}
 	$scope.removeColour = function() {
 		if ($scope.activeButton != null) {

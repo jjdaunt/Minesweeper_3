@@ -39,7 +39,8 @@
 				<div ng-repeat="colour in colours track by $index" style="float: left">
 					<button class="colour-btn" style="background-color: {{colour.val}}" ng-click="selectColour($index)">Set Colour {{$index+1}}</button>
 				</div>
-				<button style="float: left" ng-click="addColour()">Add Colour</button>
+				<br style="clear:both">
+				<button ng-click="addColour()">Add Colour</button>
 				<br><br>
 				<span style="float: left; margin-right: 5px">Colour Options:</span>
 				<div ng-repeat="co in colourOptions track by $index" ng-click="pickColour(co)" class="colour-option" style="background-color: {{co}}"></div>
@@ -52,7 +53,7 @@
 		</div>
 		<div ng-show="setupPhase === 0">
 			<div class="info-container">
-				<span class="colour-info">Colours Remaining:</span>
+				<span class="colour-info">Colours Remaining:</span><br style="clear:both">
 				<div ng-repeat="colour in colours" class="colour-display" style="color: {{colour.val}}">
 					{{colour.count}}
 				</div>
