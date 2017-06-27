@@ -11,7 +11,7 @@ How to Play Minesweeper section
 
 Actual colour picker
 
-Actual styling
+Actual styling + dynamic name sizing
 
 Bar graph animations
 
