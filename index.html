@@ -2,7 +2,7 @@
 <html ng-app="minesweeper">
 <head>
 	<link rel="stylesheet" type="text/css" href="minesweeper.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
 	<!-- <script src="libraries/angular.min.js"></script> -->
 	<script type="text/javascript" src="minesweeper.js"></script>
 </head>
@@ -56,8 +56,9 @@
 				<div ng-repeat="colour in colours" class="colour-display" style="color: {{colour.val}}">
 					{{colour.count}}
 				</div>
+				<br style="clear:both">
 				<span>ROUNDS REMAINING: {{rounds}}</span>
-				<button ng-disabled="endGame" style="margin-top: 15px" ng-click="nextRound()">{{rounds ? "Next Round" : "End Game"}}
+				<button ng-disabled="endGame" style="margin-top: 19px" ng-click="nextRound()">{{rounds ? "Next Round" : "End Game"}}
 			</div>
 			<br style="clear:both"><br>
 			<div ng-show="endGame">
@@ -66,11 +67,15 @@
 				<tr>
 					<td>Player</td>
 					<td>Average Roll</td>
+					<td>First Player</td>
 					<td ng-repeat="colour in colours" style="background-color: {{colour.val}}"></td>
 				</tr>
 			</thead>
 				<tr ng-repeat="player in players track by $index">
-					<td>{{player.name}}</td><td>{{player.avg}}</td><td ng-repeat="item in pcc[$index]">{{item.count}}</td>
+					<td>{{player.name}}</td>
+					<td ng-class="player.avg === min ? 'min-roll' : (player.avg === max ? 'max-roll' : '')">{{player.avg}}</td>
+					<td ng-class="player.fc === minFP ? 'min-roll' : (player.fc === maxFP ? 'max-roll' : '')">{{player.fc}}</td>
+					<td ng-repeat="item in pcc[$index]">{{item.count}}</td>
 				</tr>
 			</table>
 		</div>

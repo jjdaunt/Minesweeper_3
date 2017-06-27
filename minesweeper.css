@@ -42,9 +42,6 @@ body {
 	background-color: black;
 }
 
-.info-container {
-	margin-left: 20px;
-}
 .info-container  > span {
 	float: left;
 	margin-top: 15px;
@@ -98,7 +95,19 @@ body {
 
 .endgame-stats {
 	border: 2px solid black;
-	width: 250px;
+	width: 500px;
+}
+
+.min-roll {
+	background-color: #EE2200;
+}
+
+.max-roll {
+	background-color: #00EE22;
+}
+
+thead > tr > td {
+	font-weight: bold;
 }
 
 td {

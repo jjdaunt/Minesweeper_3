@@ -10,7 +10,7 @@ app.controller('minesweeperCtrl', function($scope) {
 		$scope.players = [];
 		$scope.pcc = [];
 		for (var i = 0; i < $scope.playerCount; i++) {
-			$scope.players.push({name: "", colour: null, value: null, sum: 0});
+			$scope.players.push({name: "", colour: null, value: null, sum: 0, fc: 0});
 			$scope.pcc.push([]);
 		}
 	}
@@ -93,12 +93,22 @@ app.controller('minesweeperCtrl', function($scope) {
 			list.push($scope.players[i]);
 		}
 		$scope.firstPlayer = list[randInt(0,list.length)];
+		$scope.firstPlayer.fc++;
 	}
 	
 	$scope.stats = function() {
+		$scope.max = 0;
+		$scope.min = 9;
+		$scope.maxFP = -1;
+		$scope.minFP = $scope.gameLength + 1;
 		for (var i = 0; i < $scope.players.length; i++) {
 			$scope.players[i].avg = $scope.players[i].sum / $scope.gameLength;
+			if ($scope.players[i].avg > $scope.max) $scope.max = $scope.players[i].avg;
+			if ($scope.players[i].avg < $scope.min) $scope.min = $scope.players[i].avg;
+			if ($scope.players[i].fc > $scope.maxFP) $scope.maxFP = $scope.players[i].fc;
+			if ($scope.players[i].fc < $scope.minFP) $scope.minFP = $scope.players[i].fc;
 		}
+		
 	}
 	
 	// helpers
