@@ -13,6 +13,4 @@ Actual colour picker
 
 Bar graph animations
 
-Endgame Stats
-
 Sorting on value, toggle for value/name sort

@@ -8,13 +8,15 @@ app.controller('minesweeperCtrl', function($scope) {
 	$scope.setPlayerCount = function() {
 		$scope.setupPhase = 2;
 		$scope.players = [];
+		$scope.pcc = [];
 		for (var i = 0; i < $scope.playerCount; i++) {
-			$scope.players.push({name: "", colour: null, value: null});
+			$scope.players.push({name: "", colour: null, value: null, sum: 0});
+			$scope.pcc.push([]);
 		}
 	}
 	// p3
 	$scope.colourOptions = ["#FF0000", "#FFFF00", "#0066FF", "#059000", "#EE7600", "#800080", "#7CFF00", "#FFFFFF"];
-	$scope.rounds = 8;
+	$scope.gameLength = 8;
 	$scope.setPlayers = function() {
 		$scope.setupPhase = 3;
 		$scope.colours = [];
@@ -41,6 +43,7 @@ app.controller('minesweeperCtrl', function($scope) {
 	
 	// end setup
 	$scope.completeSetup = function() {
+		$scope.rounds = $scope.gameLength;
 		$scope.setupPhase = 0;
 		// It's like rounding, but bad!
 		$scope.count = $scope.rounds * $scope.players.length / $scope.colours.length;
@@ -48,23 +51,31 @@ app.controller('minesweeperCtrl', function($scope) {
 		if ($scope.intCount !== $scope.count) $scope.intCount++;
 		for (var i = 0; i < $scope.colours.length; i++) {
 			$scope.colours[i].count = angular.copy($scope.intCount);
+			for (var j = 0; j < $scope.players.length; j++)	$scope.pcc[j].push({count: 0});
 		}
 		$scope.nextRound();
 	}
 	
 	// the game begins
 	$scope.nextRound = function() {
-		if ($scope.rounds === 0) $scope.endGame = true;
+		if ($scope.rounds === 0) {
+			$scope.endGame = true;
+			$scope.stats();
+		}
 		else {
 			$scope.setFirstPlayer();
 			for (var i = 0; i < $scope.players.length; i++) {
 				// select a roll and a colour for every player
 				$scope.players[i].value = randInt(1,9);
+				$scope.players[i].sum += $scope.players[i].value;
+				var idx = -1;
 				do {
-					var c = $scope.colours[randInt(0,$scope.colours.length)];
+					idx = randInt(0,$scope.colours.length);
+					var c = $scope.colours[idx];
 				} while (c.count === 0);
 				c.count--;
 				$scope.players[i].colour = c.val;
+				$scope.pcc[i][idx].count++;
 			}
 			$scope.rounds--;
 		}
@@ -84,6 +95,11 @@ app.controller('minesweeperCtrl', function($scope) {
 		$scope.firstPlayer = list[randInt(0,list.length)];
 	}
 	
+	$scope.stats = function() {
+		for (var i = 0; i < $scope.players.length; i++) {
+			$scope.players[i].avg = $scope.players[i].sum / $scope.gameLength;
+		}
+	}
 	
 	// helpers
 	function randInt(min, max) { // min inclusive, max exclusive

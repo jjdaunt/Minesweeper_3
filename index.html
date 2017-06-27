@@ -45,7 +45,7 @@
 				<div ng-repeat="co in colourOptions track by $index" ng-click="pickColour(co)" class="colour-option" style="background-color: {{co}}"></div>
 				<button ng-click="removeColour()" ng-disabled="activeButton == null" style="float:left">Remove</button>
 				<br><br>
-				Rounds: <input ng-model="rounds">
+				Rounds: <input ng-model="gameLength">
 				<br><br>
 				<button ng-click="completeSetup()">Complete Setup</button>
 			</div>
@@ -56,11 +56,23 @@
 				<div ng-repeat="colour in colours" class="colour-display" style="color: {{colour.val}}">
 					{{colour.count}}
 				</div>
-				<span ng-show="!endGame">ROUNDS REMAINING: {{rounds}}</span>
-				<span ng-show="endGame">GET DUNKED</span>
+				<span>ROUNDS REMAINING: {{rounds}}</span>
 				<button ng-disabled="endGame" style="margin-top: 15px" ng-click="nextRound()">{{rounds ? "Next Round" : "End Game"}}
 			</div>
-			<!-- Endgame Stats? -->
+			<br style="clear:both"><br>
+			<div ng-show="endGame">
+			<table class="endgame-stats">
+			<thead>
+				<tr>
+					<td>Player</td>
+					<td>Average Roll</td>
+					<td ng-repeat="colour in colours" style="background-color: {{colour.val}}"></td>
+				</tr>
+			</thead>
+				<tr ng-repeat="player in players track by $index">
+					<td>{{player.name}}</td><td>{{player.avg}}</td><td ng-repeat="item in pcc[$index]">{{item.count}}</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </body>
