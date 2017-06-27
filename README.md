@@ -11,8 +11,8 @@ How to Play Minesweeper section
 
 Actual colour picker
 
-Actual styling + dynamic name sizing
-
 Bar graph animations
 
 Endgame Stats
+
+Sorting on value, toggle for value/name sort

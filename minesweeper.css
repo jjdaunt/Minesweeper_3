@@ -1,3 +1,25 @@
+body {
+	background-color: #DDDDDD;
+	font-family: Verdana;
+}
+
+.title {
+	font-size: 48px;
+	font-weight: strong;
+	width: 1000px;
+	text-align: center;
+}
+
+.split-left {
+	float: left;
+	width: 55%;
+}
+
+.split-right {
+	float: left;
+	width: 40%;
+}
+
 .colour-btn {
 	width: 100px;
 	margin-right: 10px; 
@@ -32,29 +54,27 @@
 }
 
 .graph {
-	border-left: 1px solid black;
-	border-bottom: 1px solid black;
-	margin: 20px;
+	border: 1px solid black;
+	margin: 10px 20px 10px 20px;
 	position: relative;
 	width: 1000px;
 	height: 800px;
 	background-color: #BBBBBB;
-	padding: 5px;
+	padding: 0;
 }
 
 .player-name {
 	float: left;
 	font-size: 32px;
 	text-align: right;
-	width: 170px;
+	width: 175px;
 	margin-right: 20px;
 }
 
 .bar {
-	opacity: 0.8;
 	float: left;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 2px;
+	margin-bottom: 2px;
 }
 
 .bar-number {
@@ -64,11 +84,7 @@
 }
 
 .first-player {
-	opacity: 1.0;
-	border: 4px solid black;
-	margin-bottom: 2px;
-	margin-top: 2px;
-	border-left: 0;
+	background-color: white;
 }
 
 .vertical-line {

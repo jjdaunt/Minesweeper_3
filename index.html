@@ -7,57 +7,61 @@
 	<script type="text/javascript" src="minesweeper.js"></script>
 </head>
 <body ng-controller="minesweeperCtrl">
-<div ng-show="setupPhase > 0">
-	<div>
-		Players: <input ng-model="playerCount">
-		<button ng-click="setPlayerCount()">Set Player Count</button>
-	</div>
-	<br>
-	<div ng-show="setupPhase > 1">
-		<div ng-repeat="player in players track by $index">
-			Player {{$index+1}}: <input ng-model="player.name">
-		</div>
-		<br>
-		<button ng-click="setPlayers()">Set Players</button>
-	</div>
-	<br>
-	<div ng-show="setupPhase > 2">
-		<div ng-repeat="colour in colours track by $index" style="float: left">
-			<button class="colour-btn" style="background-color: {{colour.val}}" ng-click="selectColour($index)">Set Colour {{$index+1}}</button>
-		</div>
-		<button style="float: left" ng-click="addColour()">Add Colour</button>
-		<br><br>
-		<span style="float: left; margin-right: 5px">Colour Options:</span>
-		<div ng-repeat="co in colourOptions track by $index" ng-click="pickColour(co)" class="colour-option" style="background-color: {{co}}"></div>
-		<button ng-click="removeColour()" ng-disabled="activeButton == null" style="float:left">Remove</button>
-		<br><br>
-		Rounds: <input ng-model="rounds">
-		<br><br>
-		<button ng-click="completeSetup()">Complete Setup</button>
-	</div>
-</div>
-<div ng-show="setupPhase === 0">
-	<div class="info-container">
-		<span class="colour-info">Colours Remaining:</span>
-		<div ng-repeat="colour in colours" class="colour-display" style="color: {{colour.val}}">
-			{{colour.count}}
-		</div>
-		<span ng-show="!endGame">ROUNDS REMAINING: {{rounds}}</span>
-		<span ng-show="endGame">GET DUNKED</span>
-		<button ng-disabled="endGame" style="margin-top: 15px" ng-click="nextRound()">{{rounds ? "Next Round" : "End Game"}}
-	</div>
-	<br style="clear:both">
+	<div class="title">MINESWEEPER</div>
+	<div class="split-left">
 	<div class="graph">
 		<div class="vertical-line"></div>
-		<div ng-repeat="player in players track by $index" style="{{$index > 0 ? 'border-top: 1px solid black' : ''}}">
+		<div ng-repeat="player in players track by $index" ng-class="player == firstPlayer ? 'first-player' : ''" style="{{$index > 0 ? 'border-top: 1px solid black' : ''}}">
 			<div class="player-name" style="margin-top:{{(800-players.length*10)/(players.length*2)-15}}px">{{player.name}}</div>
-			<div class="bar" ng-class="player == firstPlayer ? 'first-player' : ''" style="height:{{(800-players.length*10)/players.length}}px; width:{{100 * player.value}}px; background-color:{{player.colour}}">
+			<div class="bar" style="height:{{(800-players.length*5)/players.length}}px; width:{{100 * player.value}}px; background-color:{{player.colour}}">
 				<div class="bar-number" style="margin-top:{{(800-players.length*10)/(players.length*2)-20}}px">{{player.value}}</div>
 			</div>
 			<br style="clear:both">
 		</div>
+		</div>
 	</div>
-	<!-- Endgame Stats? -->
-</div>
+	<div class="split-right">
+		<div ng-show="setupPhase > 0">
+			<div>
+				Players: <input ng-model="playerCount">
+				<button ng-click="setPlayerCount()">Set Player Count</button>
+			</div>
+			<br>
+			<div ng-show="setupPhase > 1">
+				<div ng-repeat="player in players track by $index">
+					Player {{$index+1}}: <input ng-model="player.name">
+				</div>
+				<br>
+				<button ng-click="setPlayers()">Set Players</button>
+			</div>
+			<br>
+			<div ng-show="setupPhase > 2">
+				<div ng-repeat="colour in colours track by $index" style="float: left">
+					<button class="colour-btn" style="background-color: {{colour.val}}" ng-click="selectColour($index)">Set Colour {{$index+1}}</button>
+				</div>
+				<button style="float: left" ng-click="addColour()">Add Colour</button>
+				<br><br>
+				<span style="float: left; margin-right: 5px">Colour Options:</span>
+				<div ng-repeat="co in colourOptions track by $index" ng-click="pickColour(co)" class="colour-option" style="background-color: {{co}}"></div>
+				<button ng-click="removeColour()" ng-disabled="activeButton == null" style="float:left">Remove</button>
+				<br><br>
+				Rounds: <input ng-model="rounds">
+				<br><br>
+				<button ng-click="completeSetup()">Complete Setup</button>
+			</div>
+		</div>
+		<div ng-show="setupPhase === 0">
+			<div class="info-container">
+				<span class="colour-info">Colours Remaining:</span>
+				<div ng-repeat="colour in colours" class="colour-display" style="color: {{colour.val}}">
+					{{colour.count}}
+				</div>
+				<span ng-show="!endGame">ROUNDS REMAINING: {{rounds}}</span>
+				<span ng-show="endGame">GET DUNKED</span>
+				<button ng-disabled="endGame" style="margin-top: 15px" ng-click="nextRound()">{{rounds ? "Next Round" : "End Game"}}
+			</div>
+			<!-- Endgame Stats? -->
+		</div>
+	</div>
 </body>
 </html>
