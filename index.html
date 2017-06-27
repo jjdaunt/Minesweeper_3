@@ -29,6 +29,7 @@
 		<br><br>
 		<span style="float: left; margin-right: 5px">Colour Options:</span>
 		<div ng-repeat="co in colourOptions track by $index" ng-click="pickColour(co)" class="colour-option" style="background-color: {{co}}"></div>
+		<button ng-click="removeColour()" ng-disabled="activeButton == null" style="float:left">Remove</button>
 		<br><br>
 		Rounds: <input ng-model="rounds">
 		<br><br>

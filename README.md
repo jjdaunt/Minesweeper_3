@@ -9,6 +9,8 @@ Possible future features if I stop being lazy:
 
 How to Play Minesweeper section
 
+Actual colour picker
+
 Actual styling
 
 Bar graph animations
