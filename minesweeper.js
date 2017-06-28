@@ -2,6 +2,8 @@ var app = angular.module('minesweeper', []);
 
 app.controller('minesweeperCtrl', function($scope) {
 	// init
+	$scope.height = 800; // these properties are used in math
+	$scope.width = 1000; // and are potentially resizable
 	$scope.playerCount = 8;
 	$scope.setupPhase = 1;
 	// p2
@@ -10,7 +12,8 @@ app.controller('minesweeperCtrl', function($scope) {
 		$scope.players = [];
 		$scope.pcc = [];
 		for (var i = 0; i < $scope.playerCount; i++) {
-			$scope.players.push({name: "", colour: null, value: null, sum: 0, fc: 0});
+			// name, current colour, current roll, total rolls, first player count, no-attack count
+			$scope.players.push({name: "", colour: null, value: null, sum: 0, fc: 0, uc: 0});
 			$scope.pcc.push([]);
 		}
 	}
@@ -24,6 +27,7 @@ app.controller('minesweeperCtrl', function($scope) {
 			$scope.colours.push({val: $scope.colourOptions[i], count: 0});
 		}
 	}
+	// This is like if a colour picker had no functionality
 	$scope.selectColour = function(idx) {
 		$scope.activeButton = idx;
 	}
@@ -32,6 +36,7 @@ app.controller('minesweeperCtrl', function($scope) {
 		$scope.colours[$scope.activeButton].val = col;
 		$scope.activeButton = null;
 	}
+	// Colour count functions
 	$scope.addColour = function() {
 		$scope.colours.push({val: "#FFFFFF", count: 0});
 		$scope.selectColour($scope.colours.length-1);
@@ -46,13 +51,13 @@ app.controller('minesweeperCtrl', function($scope) {
 	$scope.completeSetup = function() {
 		$scope.rounds = $scope.gameLength;
 		$scope.setupPhase = 0;
-		// It's like rounding, but bad!
+		// It's like rounding, but bad! (find number of shots per colour)
 		$scope.count = $scope.rounds * $scope.players.length / $scope.colours.length;
 		$scope.intCount = parseInt($scope.count);
 		if ($scope.intCount !== $scope.count) $scope.intCount++;
 		for (var i = 0; i < $scope.colours.length; i++) {
 			$scope.colours[i].count = angular.copy($scope.intCount);
-			for (var j = 0; j < $scope.players.length; j++)	$scope.pcc[j].push({count: 0});
+			for (var j = 0; j < $scope.players.length; j++)	$scope.pcc[j].push({count: 0}); // init tracking list of lists
 		}
 		$scope.nextRound();
 	}
@@ -66,9 +71,10 @@ app.controller('minesweeperCtrl', function($scope) {
 		else {
 			$scope.setFirstPlayer();
 			for (var i = 0; i < $scope.players.length; i++) {
-				// select a roll and a colour for every player
+				// select a roll for every player, track
 				$scope.players[i].value = randInt(1,9);
 				$scope.players[i].sum += $scope.players[i].value;
+				// select colour from those with >0 shots remaining
 				var idx = -1;
 				do {
 					idx = randInt(0,$scope.colours.length);
@@ -76,12 +82,12 @@ app.controller('minesweeperCtrl', function($scope) {
 				} while (c.count === 0);
 				c.count--;
 				$scope.players[i].colour = c.val;
-				$scope.pcc[i][idx].count++;
+				$scope.pcc[i][idx].count++; // track player colour history
 			}
 			$scope.rounds--;
 		}
 	}
-	
+	// find all players with lowest roll from last round, choose randomly from them
 	$scope.setFirstPlayer = function() {
 		var min = 9;
 		var list = [];
@@ -95,8 +101,9 @@ app.controller('minesweeperCtrl', function($scope) {
 		}
 		$scope.firstPlayer = list[randInt(0,list.length)];
 		$scope.firstPlayer.fc++;
+		if (list.length === 1) $scope.firstPlayer.uc++;
 	}
-	
+	// set endgame stats: average rolls, highlight max/min roll and first player count
 	$scope.stats = function() {
 		$scope.max = 0;
 		$scope.min = 9;

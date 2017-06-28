@@ -14,3 +14,5 @@ Actual colour picker
 Bar graph animations
 
 Sorting on value, toggle for value/name sort
+
+Resize graph + scale text size

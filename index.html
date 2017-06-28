@@ -5,23 +5,24 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
 	<!-- <script src="libraries/angular.min.js"></script> -->
 	<script type="text/javascript" src="minesweeper.js"></script>
+	<title>MINESWEEPER</title>
 </head>
 <body ng-controller="minesweeperCtrl">
 	<div class="title">MINESWEEPER</div>
 	<div class="split-left">
-	<div class="graph">
+	<div class="graph" style="width:{{width}}px; height:{{height}}px">
 		<div class="vertical-line"></div>
 		<div ng-repeat="player in players track by $index" ng-class="player == firstPlayer ? 'first-player' : ''" style="{{$index > 0 ? 'border-top: 1px solid black' : ''}}">
-			<div class="player-name" style="margin-top:{{(800-players.length*10)/(players.length*2)-15}}px">{{player.name}}</div>
-			<div class="bar" style="height:{{(800-players.length*5)/players.length}}px; width:{{100 * player.value}}px; background-color:{{player.colour}}">
-				<div class="bar-number" style="margin-top:{{(800-players.length*10)/(players.length*2)-20}}px">{{player.value}}</div>
+			<div class="player-name" style="margin-top:{{(height-players.length*10)/(players.length*2)-15}}px">{{player.name}}</div>
+			<div class="bar" style="height:{{(height-players.length*5)/players.length}}px; width:{{(width-200)/8 * player.value}}px; background-color:{{player.colour}}">
+				<div class="bar-number" style="margin-top:{{(height-players.length*10)/(players.length*2)-20}}px">{{player.value}}</div>
 			</div>
 			<br style="clear:both">
 		</div>
 		</div>
 	</div>
 	<div class="split-right">
-		<div ng-show="setupPhase > 0">
+		<div ng-show="setupPhase > 0" style="margin-top: 15px">
 			<div>
 				Players: <input ng-model="playerCount">
 				<button ng-click="setPlayerCount()">Set Player Count</button>
@@ -67,8 +68,9 @@
 			<thead>
 				<tr>
 					<td>Player</td>
-					<td>Average Roll</td>
+					<td>Avg Roll</td>
 					<td>First Player</td>
+					<td>NARs</td>
 					<td ng-repeat="colour in colours" style="background-color: {{colour.val}}"></td>
 				</tr>
 			</thead>
@@ -76,6 +78,7 @@
 					<td>{{player.name}}</td>
 					<td ng-class="player.avg === min ? 'min-roll' : (player.avg === max ? 'max-roll' : '')">{{player.avg}}</td>
 					<td ng-class="player.fc === minFP ? 'min-roll' : (player.fc === maxFP ? 'max-roll' : '')">{{player.fc}}</td>
+					<td ng-class="player.uc ? 'min-roll' : ''">{{player.uc}}</td>
 					<td ng-repeat="item in pcc[$index]">{{item.count}}</td>
 				</tr>
 			</table>
